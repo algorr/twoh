@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:twoh/model/machine_model.dart';
 import 'package:twoh/routes/custom_router.gr.dart';
 import 'package:twoh/viewmodel/bloc/machine_data_bloc.dart';
 import '../models/machines.dart';
@@ -41,7 +40,7 @@ class MachineStateView extends StatelessWidget {
 Widget buildMachines(List<Machines>? apiResult, Size size) {
   return ListView.builder(
       padding: EdgeInsets.zero,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: apiResult!.length,
       itemBuilder: (context, index) {

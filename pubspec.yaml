@@ -40,6 +40,9 @@ dependencies:
   http: ^0.13.4
   auto_route: ^4.2.1
   json_annotation: ^4.6.0
+  auto_size_text: ^3.0.0
+  graphic: ^0.10.5
+  charts_flutter: ^0.12.0
   
  
 
