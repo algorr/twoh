@@ -63,89 +63,98 @@ class MachineDetailView extends StatelessWidget {
                   ),
                 ],
               ),
-              
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                //crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text("WP",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                      const SizedBox(height: 10,),
-                      CircularPercentIndicator(
-                        radius: 60,
-                        lineWidth: 15.0,
-                        animation: true,
+              Container(
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade300,
+                      offset: const Offset(4, 4),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                    const BoxShadow(
+                      color: Colors.white,
+                      offset: Offset(-4, -4),
+                      blurRadius: 10,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: const [
+                      CustomCircularPercentIndicator(
+                        text: 'WP',
+                        imagePath: 'assets/images/1.png',
                         percent: 0.75,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.red,
-                        backgroundColor: Colors.grey,
-                        center: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 35.0,
-                          backgroundImage: AssetImage(
-                            'assets/images/1.png',
-                          ),
-                        ),
                       ),
+                      CustomCircularPercentIndicator(
+                          text: 'EP',
+                          percent: 0.25,
+                          imagePath: 'assets/images/1.png'),
+                      CustomCircularPercentIndicator(
+                          text: 'LP',
+                          percent: 0.73,
+                          imagePath: 'assets/images/1.png')
                     ],
                   ),
-                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                       const Text("EP",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                      const SizedBox(height: 10,),
-                      CircularPercentIndicator(
-                        radius: 60,
-                        lineWidth: 15.0,
-                        animation: true,
-                        percent: 0.25,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.red,
-                        backgroundColor: Colors.grey,
-                        center: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 35.0,
-                          backgroundImage: AssetImage(
-                            'assets/images/1.png',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                       const Text("LP",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
-                      const SizedBox(height: 10,),
-                      CircularPercentIndicator(
-                        radius: 60,
-                        lineWidth: 15.0,
-                        animation: true,
-                        percent: 0.13,
-                        circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.red,
-                        backgroundColor: Colors.grey,
-                        center: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 35.0,
-                          backgroundImage: AssetImage(
-                            'assets/images/1.png',
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomCircularPercentIndicator extends StatelessWidget {
+  final String text;
+  final double percent;
+  final String imagePath;
+  const CustomCircularPercentIndicator({
+    Key? key,
+    required this.text,
+    required this.percent,
+    required this.imagePath,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          text,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        CircularPercentIndicator(
+          radius: 45,
+          lineWidth: 15.0,
+          animation: true,
+          percent: percent,
+          circularStrokeCap: CircularStrokeCap.round,
+          progressColor: Colors.red,
+          backgroundColor: Colors.grey,
+          center: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: 35.0,
+            backgroundImage: AssetImage(
+              imagePath,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
