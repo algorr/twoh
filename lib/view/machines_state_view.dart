@@ -52,9 +52,9 @@ Widget buildMachines(List<Machines>? apiResult, Size size) {
           },
           child: index % 2 == 0
               ? RightMachineAndLineRow(
-                  size: size, imagePath: "assets/images/1.png")
+                  size: size, imagePath: apiResult[index].imagePath!)
               : LeftMachineAndLineRow(
-                  size: size, imagePath: "assets/images/1.png"),
+                  size: size, imagePath: apiResult[index].imagePath!),
         );
       });
 }

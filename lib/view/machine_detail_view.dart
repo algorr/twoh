@@ -19,95 +19,203 @@ class MachineDetailView extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              Center(
-                child: Container(
-                  height: 160,
-                  decoration: const BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                      )),
-                  width: size.width,
-                  child: Image.asset(
-                    machine.imagePath!,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      "Doğrama Makinesi",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    width: size.width,
-                    height: 80,
-                    child: const CustomAutoSizeText(
-                      contentText:
-                          "Uzun ve ağır bir makine olan kesme makinesi çok kapsamlı bir makinedir.Uzun demirleri ve diğer metallleri kesmede kullanılan bu makine fabrikanın olmazsa olmaz makinesidir.",
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      offset: const Offset(4, 4),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                    const BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-4, -4),
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
-                      CustomCircularPercentIndicator(
-                        text: 'WP',
-                        imagePath: 'assets/images/1.png',
-                        percent: 0.75,
-                      ),
-                      CustomCircularPercentIndicator(
-                          text: 'EP',
-                          percent: 0.25,
-                          imagePath: 'assets/images/1.png'),
-                      CustomCircularPercentIndicator(
-                          text: 'LP',
-                          percent: 0.73,
-                          imagePath: 'assets/images/1.png')
-                    ],
-                  ),
-                ),
-              ),
+              MachineHeadImageContiner(size: size, machine: machine),
+              MachineNameTextContainer(machine: machine),
+              MachineInfoTextContainer(size: size),
+              MachineInfoIndicatorsRow(machine: machine),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class MachineInfoIndicatorsRow extends StatelessWidget {
+  const MachineInfoIndicatorsRow({
+    Key? key,
+    required this.machine,
+  }) : super(key: key);
+
+  final Machines machine;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        //crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+                const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomCircularPercentIndicator(
+                text: 'WP',
+                imagePath: 'assets/images/1.png',
+                percent: machine.wpPercent!,
+              ),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+                const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomCircularPercentIndicator(
+                  text: 'EP',
+                  percent: machine.epPercent!,
+                  imagePath: 'assets/images/1.png'),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+                const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomCircularPercentIndicator(
+                  text: 'LP',
+                  percent: machine.lpPercent!,
+                  imagePath: machine.imagePath!),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class MachineInfoTextContainer extends StatelessWidget {
+  const MachineInfoTextContainer({
+    Key? key,
+    required this.size,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: size.width,
+          height: 80,
+          child: const CustomAutoSizeText(
+            contentText:
+                "Uzun ve ağır bir makine olan kesme makinesi çok kapsamlı bir makinedir.Uzun demirleri ve diğer metallleri kesmede kullanılan bu makine fabrikanın olmazsa olmaz makinesidir.",
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class MachineNameTextContainer extends StatelessWidget {
+  const MachineNameTextContainer({
+    Key? key,
+    required this.machine,
+  }) : super(key: key);
+
+  final Machines machine;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            machine.title!,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MachineHeadImageContiner extends StatelessWidget {
+  const MachineHeadImageContiner({
+    Key? key,
+    required this.size,
+    required this.machine,
+  }) : super(key: key);
+
+  final Size size;
+  final Machines machine;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        height: 160,
+        decoration: const BoxDecoration(
+            color: Colors.amber,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            )),
+        width: size.width,
+        child: Image.asset(
+          machine.imagePath!,
+          fit: BoxFit.contain,
         ),
       ),
     );
@@ -140,17 +248,18 @@ class CustomCircularPercentIndicator extends StatelessWidget {
         ),
         CircularPercentIndicator(
           radius: 45,
-          lineWidth: 15.0,
+          lineWidth: 8.0,
           animation: true,
           percent: percent,
           circularStrokeCap: CircularStrokeCap.round,
           progressColor: Colors.red,
           backgroundColor: Colors.grey,
           center: CircleAvatar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: Colors.grey.shade300,
             radius: 35.0,
-            backgroundImage: AssetImage(
-              imagePath,
+            child: Text(
+              "%$percent",
+              style: TextStyle(color: Colors.black),
             ),
           ),
         ),
@@ -169,7 +278,7 @@ class CustomAutoSizeText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 250,
       decoration: BoxDecoration(
         color: Colors.grey.shade300,
         borderRadius: BorderRadius.circular(20),
