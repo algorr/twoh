@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:twoh/repository/local_api_repository.dart';
 import 'package:twoh/routes/custom_router.gr.dart';
 import 'package:twoh/service/local_api.dart';
@@ -6,10 +7,14 @@ import 'package:twoh/viewmodel/bloc/machine_data_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(BlocProvider<MachineDataBloc>(
-    create: (context) => MachineDataBloc(LocalApiRepository(LocalApi())),
-    child: MyApp(),
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.amber, // navigation bar color
+    statusBarColor: Color(0xffffb969), // status bar color
   ));
+  runApp(BlocProvider<MachineDataBloc>(
+    create: (context) => MachineDataBloc(LocalApiRepository(LocalApi(),),),
+    child: MyApp(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Material App',
       routerDelegate: _appRouter.delegate(),
-      theme: ThemeData(appBarTheme: AppBarTheme(backgroundColor: Colors.amber)),
+      theme: ThemeData(appBarTheme: const AppBarTheme(backgroundColor: Colors.amber)),
       routeInformationParser: _appRouter.defaultRouteParser(),
     );
   }

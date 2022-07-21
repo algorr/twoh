@@ -5,8 +5,9 @@ import 'package:http/http.dart' as http;
 
 import '../models/machines.dart';
 
+
 class LocalApi {
-  String url = "http://192.168.0.17:3000/machines";
+  String url = "http://192.168.0.21:3000/machines";
 
   Future<List<Machines>?> fetchData() async {
     try {
