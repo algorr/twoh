@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class JustImage extends StatelessWidget {
   final String imageUrl;
-  const JustImage({Key? key, required this.imageUrl}) : super(key: key);
+  final Color color;
+  const JustImage({Key? key, required this.imageUrl, required this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +20,9 @@ class JustImage extends StatelessWidget {
                       blurRadius: 10,
                       spreadRadius: 1,
                     ),
-                    const BoxShadow(
-                      color: Colors.white,
-                      offset: Offset(-4, -4),
+                     BoxShadow(
+                      color: color,
+                      offset: const Offset(-4, -4),
                       blurRadius: 10,
                       spreadRadius: 1,
                     ),

@@ -52,20 +52,21 @@ Widget buildMachines(List<Machines>? apiResult, Size size) {
           },
           child: index % 2 == 0
               ? RightMachineAndLineRow(
-                  size: size, imagePath: apiResult[index].imagePath!)
+                  size: size, imagePath: apiResult[index].imagePath!,color: apiResult[index].isFailure == true ? Colors.red : Colors.white,)
               : LeftMachineAndLineRow(
-                  size: size, imagePath: apiResult[index].imagePath!),
+                  size: size, imagePath: apiResult[index].imagePath!,color: apiResult[index].isFailure == true ? Colors.red : Colors.white,),
         );
       });
 }
 
 class LeftMachineAndLineRow extends StatelessWidget {
   const LeftMachineAndLineRow(
-      {Key? key, required this.size, required this.imagePath})
+      {Key? key, required this.size, required this.imagePath, required this.color})
       : super(key: key);
 
   final Size size;
   final String imagePath;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class LeftMachineAndLineRow extends StatelessWidget {
             SizedBox(
               height: size.height * .15,
               width: size.width * .45,
-              child: JustImage(imageUrl: imagePath),
+              child: JustImage(imageUrl: imagePath,color: color,),
             ),
           ],
         ),
@@ -89,11 +90,12 @@ class LeftMachineAndLineRow extends StatelessWidget {
 
 class RightMachineAndLineRow extends StatelessWidget {
   const RightMachineAndLineRow(
-      {Key? key, required this.size, required this.imagePath})
+      {Key? key, required this.size, required this.imagePath, required this.color})
       : super(key: key);
 
   final Size size;
   final String imagePath;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +108,7 @@ class RightMachineAndLineRow extends StatelessWidget {
             SizedBox(
               height: size.height * .15,
               width: size.width * .45,
-              child: JustImage(imageUrl: imagePath),
+              child: JustImage(imageUrl: imagePath,color: color,),
             ),
           ],
         ),
@@ -116,11 +118,12 @@ class RightMachineAndLineRow extends StatelessWidget {
 }
 
 class FirstMachineRow extends StatelessWidget {
-  const FirstMachineRow({Key? key, required this.size, required this.imagePath})
+  const FirstMachineRow({Key? key, required this.size, required this.imagePath, required this.color})
       : super(key: key);
 
   final Size size;
   final String imagePath;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +132,7 @@ class FirstMachineRow extends StatelessWidget {
         SizedBox(
           height: size.height * .15,
           width: size.width * .5,
-          child: JustImage(imageUrl: imagePath),
+          child: JustImage(imageUrl: imagePath,color: color,),
         ),
       ],
     );
@@ -139,39 +142,3 @@ class FirstMachineRow extends StatelessWidget {
 
 
 
-
-/* GestureDetector(
-                    child: FirstMachineRow(
-                      size: size,
-                      imagePath: "assets/images/1.png",
-                    ),
-                    onTap: () {
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> MachineDetailView(apiResult: state.apiResult)));
-                      context.router
-                          .push(MachineDetailViewRoute(machine: null));
-                    },
-                  ),
-                  GestureDetector(
-                      child: RightMachineAndLineRow(
-                        size: size,
-                        imagePath: "assets/images/2.png",
-                      ),
-                      onTap: () {}),
-                  GestureDetector(
-                      child: LeftMachineAndLineRow(
-                        size: size,
-                        imagePath: "assets/images/3.png",
-                      ),
-                      onTap: () {}),
-                  GestureDetector(
-                      child: RightMachineAndLineRow(
-                        size: size,
-                        imagePath: "assets/images/4.png",
-                      ),
-                      onTap: () {}),
-                  GestureDetector(
-                      child: LeftMachineAndLineRow(
-                        size: size,
-                        imagePath: "assets/images/5.png",
-                      ),
-                      onTap: () {}),*/

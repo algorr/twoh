@@ -15,6 +15,12 @@ class MachineDetailView extends StatelessWidget {
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
         elevation: 0,
+        actions: [
+          machine.isFailure == true ? const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.app_registration_rounded),
+          ) : const SizedBox(),
+        ],
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -23,9 +29,25 @@ class MachineDetailView extends StatelessWidget {
               MachineHeadImageContiner(size: size, machine: machine),
               MachineNameTextContainer(machine: machine),
               MachineInfoTextContainer(size: size),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: const [
+                    Text("Percent Indicators",style: TextStyle(fontWeight: FontWeight.bold),),
+                  ],
+                ),
+              ),
               MachineInfoIndicatorsRow(machine: machine),
-              MachinePercentInfoRow(size: size,color: Colors.red,text: "Arıza Süre Oranı",),
-              MachinePercentInfoRow(size: size,color: Colors.grey,text: "Etkin Süre Oranı",),
+              MachinePercentInfoRow(
+                size: size,
+                color: Colors.red,
+                text: "Arıza Süre Oranı",
+              ),
+              MachinePercentInfoRow(
+                size: size,
+                color: Colors.grey,
+                text: "Etkin Süre Oranı",
+              ),
             ],
           ),
         ),
@@ -39,7 +61,9 @@ class MachinePercentInfoRow extends StatelessWidget {
   final String text;
   const MachinePercentInfoRow({
     Key? key,
-    required this.size, required this.color, required this.text,
+    required this.size,
+    required this.color,
+    required this.text,
   }) : super(key: key);
 
   final Size size;
@@ -57,13 +81,12 @@ class MachinePercentInfoRow extends StatelessWidget {
             height: size.height * .009,
             width: size.width * .07,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: color),
+                borderRadius: BorderRadius.circular(15), color: color),
           ),
-           Padding(
-             padding: const EdgeInsets.all(8.0),
-             child: Text(text),
-           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(text),
+          ),
         ],
       ),
     );
