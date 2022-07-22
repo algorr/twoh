@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:twoh/widgets/create_new_task.dart';
 import 'package:twoh/widgets/stadium_painter.dart';
 import '../models/machines.dart';
 
@@ -16,10 +17,20 @@ class MachineDetailView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         actions: [
-          machine.isFailure == true ? const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(Icons.app_registration_rounded),
-          ) : const SizedBox(),
+          machine.isFailure == true
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.app_registration_rounded),
+                    onPressed: () async{
+                      final result = await showDialog(context: context, builder: (context)=>const Dialog(child: CreateNewTask(),));
+                      if(result !=null){
+                        const ScaffoldMessenger(child: Text("Yuppi"));
+                      }
+                    },
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
       body: SingleChildScrollView(
@@ -33,7 +44,10 @@ class MachineDetailView extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 child: Row(
                   children: const [
-                    Text("Percent Indicators",style: TextStyle(fontWeight: FontWeight.bold),),
+                    Text(
+                      "Percent Indicators",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
