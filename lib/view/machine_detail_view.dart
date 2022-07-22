@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:twoh/widgets/stadium_painter.dart';
 import '../models/machines.dart';
 
 class MachineDetailView extends StatelessWidget {
@@ -23,9 +24,47 @@ class MachineDetailView extends StatelessWidget {
               MachineNameTextContainer(machine: machine),
               MachineInfoTextContainer(size: size),
               MachineInfoIndicatorsRow(machine: machine),
+              MachinePercentInfoRow(size: size,color: Colors.red,text: "Arıza Süre Oranı",),
+              MachinePercentInfoRow(size: size,color: Colors.grey,text: "Etkin Süre Oranı",),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MachinePercentInfoRow extends StatelessWidget {
+  final Color color;
+  final String text;
+  const MachinePercentInfoRow({
+    Key? key,
+    required this.size, required this.color, required this.text,
+  }) : super(key: key);
+
+  final Size size;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.all(10),
+            height: size.height * .009,
+            width: size.width * .07,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: color),
+          ),
+           Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Text(text),
+           ),
+        ],
       ),
     );
   }
@@ -48,7 +87,7 @@ class MachineInfoIndicatorsRow extends StatelessWidget {
         //crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.grey.shade300,
               borderRadius: BorderRadius.circular(20),
@@ -77,7 +116,7 @@ class MachineInfoIndicatorsRow extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.grey.shade300,
               borderRadius: BorderRadius.circular(20),
@@ -105,7 +144,7 @@ class MachineInfoIndicatorsRow extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.all(8),
+            margin: const EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: Colors.grey.shade300,
               borderRadius: BorderRadius.circular(20),
@@ -259,7 +298,7 @@ class CustomCircularPercentIndicator extends StatelessWidget {
             radius: 35.0,
             child: Text(
               "%$percent",
-              style: TextStyle(color: Colors.black),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         ),
@@ -299,13 +338,21 @@ class CustomAutoSizeText extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: AutoSizeText(
-          contentText,
-          //stepGranularity: 30,
-          minFontSize: 15,
-          textAlign: TextAlign.left,
-          overflow: TextOverflow.ellipsis,
-          maxLines: 7,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minWidth: 300.0,
+            maxWidth: 300.0,
+            minHeight: 30.0,
+            maxHeight: 100.0,
+          ),
+          child: AutoSizeText(
+            contentText,
+            //stepGranularity: 30,
+            minFontSize: 15,
+            textAlign: TextAlign.left,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 7,
+          ),
         ),
       ),
     );
