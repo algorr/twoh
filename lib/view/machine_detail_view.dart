@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:twoh/widgets/create_new_task.dart';
-import 'package:twoh/widgets/stadium_painter.dart';
 import '../models/machines.dart';
 
 class MachineDetailView extends StatelessWidget {
@@ -23,7 +22,7 @@ class MachineDetailView extends StatelessWidget {
                   child: IconButton(
                     icon: const Icon(Icons.app_registration_rounded),
                     onPressed: () async{
-                      final result = await showDialog(context: context, builder: (context)=>const Dialog(child: CreateNewTask(),));
+                      final result = await showDialog(context: context, builder: (context)=> Dialog(child: CreateNewTask(machines: machine,),));
                       if(result !=null){
                         const ScaffoldMessenger(child: Text("Yuppi"));
                       }

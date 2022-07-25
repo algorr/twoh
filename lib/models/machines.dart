@@ -12,7 +12,7 @@ class Machines {
   Machines.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    isFailure = json['isFailure'];
+    isFailure = json['isFailure'] == "true";
     imagePath = json['imagePath'];
     wpPercent = json['wpPercent'];
     epPercent = json['epPercent'];

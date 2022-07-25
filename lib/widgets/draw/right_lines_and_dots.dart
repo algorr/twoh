@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'circle_painter.dart';
 import 'horizontal_line_painter.dart';
 import 'vertical_line_painter.dart';

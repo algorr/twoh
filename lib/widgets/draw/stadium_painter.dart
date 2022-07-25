@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class StadiumPainter extends StatelessWidget {
-  StadiumPainter(
+  const StadiumPainter(
       {Key? key, required this.color, required this.p1, required this.p2})
       : super(key: key);
-  Color color;
-  double p1;
-  double p2;
+  final Color color;
+  final double p1;
+  final double p2;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class StadiumPaint extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final center = Offset(size.width * -1, size.height * 1);
+    //final center = Offset(size.width * -1, size.height * 1);
     final paint = Paint()
       ..color = Colors.grey.shade300
       ..strokeCap = StrokeCap.round

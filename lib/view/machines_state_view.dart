@@ -5,8 +5,8 @@ import 'package:twoh/routes/custom_router.gr.dart';
 import 'package:twoh/viewmodel/bloc/machine_data_bloc.dart';
 import '../models/machines.dart';
 import '../widgets/just_image.dart';
-import '../widgets/left_lines_and_dots.dart';
-import '../widgets/right_lines_and_dots.dart';
+import '../widgets/draw/left_lines_and_dots.dart';
+import '../widgets/draw/right_lines_and_dots.dart';
 
 class MachineStateView extends StatelessWidget {
   const MachineStateView({Key? key}) : super(key: key);
@@ -14,7 +14,10 @@ class MachineStateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocBuilder<MachineDataBloc, MachineDataState>(
+    return BlocConsumer<MachineDataBloc, MachineDataState>(
+      listener: (context, state) {
+        BlocProvider.of<MachineDataBloc>(context).stream;
+      },
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
@@ -44,7 +47,6 @@ Widget buildMachines(List<Machines>? apiResult, Size size) {
       shrinkWrap: true,
       itemCount: apiResult!.length,
       itemBuilder: (context, index) {
-        //final Machines machineModel = apiResult[index];
         return InkWell(
           onTap: () {
             context.router
@@ -52,16 +54,29 @@ Widget buildMachines(List<Machines>? apiResult, Size size) {
           },
           child: index % 2 == 0
               ? RightMachineAndLineRow(
-                  size: size, imagePath: apiResult[index].imagePath!,color: apiResult[index].isFailure == true ? Colors.red : Colors.white,)
+                  size: size,
+                  imagePath: apiResult[index].imagePath!,
+                  color: apiResult[index].isFailure == true
+                      ? Colors.red
+                      : Colors.white,
+                )
               : LeftMachineAndLineRow(
-                  size: size, imagePath: apiResult[index].imagePath!,color: apiResult[index].isFailure == true ? Colors.red : Colors.white,),
+                  size: size,
+                  imagePath: apiResult[index].imagePath!,
+                  color: apiResult[index].isFailure == true
+                      ? Colors.red
+                      : Colors.white,
+                ),
         );
       });
 }
 
 class LeftMachineAndLineRow extends StatelessWidget {
   const LeftMachineAndLineRow(
-      {Key? key, required this.size, required this.imagePath, required this.color})
+      {Key? key,
+      required this.size,
+      required this.imagePath,
+      required this.color})
       : super(key: key);
 
   final Size size;
@@ -78,7 +93,10 @@ class LeftMachineAndLineRow extends StatelessWidget {
             SizedBox(
               height: size.height * .15,
               width: size.width * .45,
-              child: JustImage(imageUrl: imagePath,color: color,),
+              child: JustImage(
+                imageUrl: imagePath,
+                color: color,
+              ),
             ),
           ],
         ),
@@ -90,7 +108,10 @@ class LeftMachineAndLineRow extends StatelessWidget {
 
 class RightMachineAndLineRow extends StatelessWidget {
   const RightMachineAndLineRow(
-      {Key? key, required this.size, required this.imagePath, required this.color})
+      {Key? key,
+      required this.size,
+      required this.imagePath,
+      required this.color})
       : super(key: key);
 
   final Size size;
@@ -108,7 +129,10 @@ class RightMachineAndLineRow extends StatelessWidget {
             SizedBox(
               height: size.height * .15,
               width: size.width * .45,
-              child: JustImage(imageUrl: imagePath,color: color,),
+              child: JustImage(
+                imageUrl: imagePath,
+                color: color,
+              ),
             ),
           ],
         ),
@@ -118,7 +142,11 @@ class RightMachineAndLineRow extends StatelessWidget {
 }
 
 class FirstMachineRow extends StatelessWidget {
-  const FirstMachineRow({Key? key, required this.size, required this.imagePath, required this.color})
+  const FirstMachineRow(
+      {Key? key,
+      required this.size,
+      required this.imagePath,
+      required this.color})
       : super(key: key);
 
   final Size size;
@@ -132,13 +160,12 @@ class FirstMachineRow extends StatelessWidget {
         SizedBox(
           height: size.height * .15,
           width: size.width * .5,
-          child: JustImage(imageUrl: imagePath,color: color,),
+          child: JustImage(
+            imageUrl: imagePath,
+            color: color,
+          ),
         ),
       ],
     );
   }
 }
-
-
-
-

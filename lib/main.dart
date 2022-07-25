@@ -9,7 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 void main() {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     systemNavigationBarColor: Colors.amber, // navigation bar color
-    statusBarColor: Color(0xffffb969), // status bar color
+    statusBarColor: Colors.amber, // status bar color
   ));
   runApp(
     BlocProvider<MachineDataBloc>(

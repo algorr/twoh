@@ -12,14 +12,20 @@ class HomeView extends StatelessWidget {
       body: BlocBuilder<MachineDataBloc, MachineDataState>(
         builder: (context, state) {
           if (state is MachineDataInitial) {
-            context.read<MachineDataBloc>().add(LoadMachineDataEvent());
-            return const Center(child: CircularProgressIndicator(),);
-          }else if(state is MachineDataLoadingState){
-            return const Center(child: CircularProgressIndicator(),);
-          }else if(state is MachineDataLoadedState){
-            return  const MachineStateView();
+            context.read<MachineDataBloc>().add(MachineLoadDataEvent());
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is MachineDataLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is MachineDataLoadedState) {
+            return const MachineStateView();
           }
-          return Container(color: Colors.red,);
+          return Container(
+            color: Colors.red,
+          );
         },
       ),
     );
