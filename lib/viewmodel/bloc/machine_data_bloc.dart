@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:twoh/models/machines.dart';
 import 'package:twoh/repository/local_api_repository.dart';
@@ -7,6 +9,7 @@ part 'machine_data_state.dart';
 
 class MachineDataBloc extends Bloc<MachineDataEvent, MachineDataState> {
   final LocalApiRepository localApiRepository;
+  final StreamController<List<Machines>> streamController = StreamController();
 
   MachineDataBloc(this.localApiRepository) : super(MachineDataInitial()) {
     //When Machines Loaded Event
@@ -17,18 +20,18 @@ class MachineDataBloc extends Bloc<MachineDataEvent, MachineDataState> {
       if (apiResult == null) {
         emit(MachineDataErrorState());
       }
+      streamController.add(apiResult!);
       emit(MachineDataLoadedState(apiResult: apiResult));
     });
 
     on<MachinePatchDataEvent>((event, emit) async {
       await localApiRepository.patchMachineData(
           event.machines.isFailure!, event.machines.id!);
-     
+      List<Machines>? apiResult = await localApiRepository.fetchData();
       final currentState = state as MachineDataLoadedState;
-      //add(MachineLoadDataEvent());
-      emit(MachineDataLoadedState(apiResult: currentState.apiResult));
       add(MachinePatchDataEvent(event.machines));
-      
+      streamController.add(apiResult!);
+      emit(MachineDataLoadedState(apiResult: currentState.apiResult));
     });
   }
 
@@ -49,9 +52,11 @@ class MachineDataBloc extends Bloc<MachineDataEvent, MachineDataState> {
     return isFailure;
   }
 
-  void updateMachineList() {
+  void updateMachineList() async{
     final currentState = state;
     if (currentState is MachineDataLoadedState) {
+       List<Machines>? apiResult = await localApiRepository.fetchData();
+      streamController.sink.add(apiResult!);
       emit(MachineDataLoadedState(apiResult: currentState.apiResult));
     }
   }

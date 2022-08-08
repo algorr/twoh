@@ -21,15 +21,40 @@ class MachineDetailView extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: IconButton(
                     icon: const Icon(Icons.app_registration_rounded),
-                    onPressed: () async{
-                      final result = await showDialog(context: context, builder: (context)=> Dialog(child: CreateNewTask(machines: machine,),));
-                      if(result !=null){
-                        const ScaffoldMessenger(child: Text("Yuppi"));
+                    onPressed: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                child: CreateNewTask(
+                                  machines: machine,
+                                ),
+                              ));
+                      if (result != null) {
+                        const ScaffoldMessenger(
+                          child: SnackBar(content: Text("yuppi")),
+                        );
                       }
                     },
                   ),
                 )
-              : const SizedBox(),
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.info_outline_rounded),
+                    onPressed: () async {
+                      final result = await showDialog(
+                          context: context,
+                          builder: (context) => Dialog(
+                                child: CreateNewTask(
+                                  machines: machine,
+                                ),
+                              ));
+                      if (result != null) {
+                        const ScaffoldMessenger(child: Text("Yuppi"));
+                      }
+                    },
+                  ),
+                ),
         ],
       ),
       body: SingleChildScrollView(
@@ -230,10 +255,9 @@ class MachineInfoTextContainer extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           width: size.width,
-          height: 80,
-          child: const CustomAutoSizeText(
-            contentText:
-                "Uzun ve ağır bir makine olan kesme makinesi çok kapsamlı bir makinedir.Uzun demirleri ve diğer metallleri kesmede kullanılan bu makine fabrikanın olmazsa olmaz makinesidir.",
+          height: size.height * .1,
+          child: const Text(
+            "Uzun ve ağır bir makine olan kesme makinesi çok kapsamlı bir makinedir.Uzun demirleri ve diğer metallleri kesmede kullanılan bu makine fabrikanın olmazsa olmaz makinesidir.",
           ),
         ),
       ],

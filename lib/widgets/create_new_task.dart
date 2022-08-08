@@ -14,6 +14,7 @@ class CreateNewTask extends StatelessWidget {
     final inputController = TextEditingController();
     return BlocBuilder<MachineDataBloc, MachineDataState>(
       builder: (BuildContext context, state) {
+          Future.delayed(const Duration(seconds: 2)).then((value) => context.read<MachineDataBloc>().updateMachineList());
         return Container(
           height: size.height * .4,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
@@ -24,22 +25,22 @@ class CreateNewTask extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 12.0),
                 child: CheckboxListTile(
-                  title: const Text("Sorun Giderildi"),
-                  subtitle: const Text("Manuel Müdahale"),
+                  title: const Text("Arıza Var Mı?"),
+                  subtitle: const Text("Manuel Kontrol"),
                   value: machines.isFailure,
                   onChanged: (value) {
-                      BlocProvider.of<MachineDataBloc>(context).changeComplition(machines);
-                      
-                      //BlocProvider.of<MachineDataBloc>(context).add(MachinePatchDataEvent(machines));
-
+                    BlocProvider.of<MachineDataBloc>(context)
+                        .changeComplition(machines);
+                      BlocProvider.of<MachineDataBloc>(context)
+                      .add(MachineLoadDataEvent());
                   },
                 ),
               ),
               SaveTaskButton(
                 inputController: inputController,
                 onPressed: (_) async {
-                 BlocProvider.of<MachineDataBloc>(context).add(MachineLoadDataEvent());
-                  //BlocProvider.of<MachineDataBloc>(context).changeComplition(machines);
+                  BlocProvider.of<MachineDataBloc>(context)
+                      .add(MachineLoadDataEvent());
                 },
               )
             ],
@@ -86,7 +87,6 @@ class SaveTaskButton extends StatelessWidget {
             textStyle: const TextStyle(fontWeight: FontWeight.bold)),
         onPressed: () {
           Navigator.pop(context, inputController.text);
-          
         },
         child: const Text('Save'));
   }

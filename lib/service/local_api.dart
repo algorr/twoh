@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:core';
 import 'package:http/http.dart' as http;
 import '../models/machines.dart';
 
 class LocalApi {
-  String baseUrl = "http://192.168.0.14:3000/";
+  String baseUrl = "http://192.168.0.15:3000/";
 
 //Getdata from Restful Api
   Future<List<Machines>?> fetchData() async {
@@ -13,6 +14,7 @@ class LocalApi {
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body) as List;
         final machineList = body.map((e) => Machines.fromJson(e)).toList();
+
         return machineList;
       }
       return null;
@@ -21,6 +23,8 @@ class LocalApi {
       throw Exception();
     }
   }
+
+
 
   Future<bool> patchData(Map<String, String> machineObj, int id) async {
     try {

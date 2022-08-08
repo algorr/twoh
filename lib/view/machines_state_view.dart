@@ -1,3 +1,4 @@
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,23 +15,27 @@ class MachineStateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return BlocConsumer<MachineDataBloc, MachineDataState>(
-      listener: (context, state) {
-        BlocProvider.of<MachineDataBloc>(context).stream;
-      },
+    return BlocBuilder<MachineDataBloc, MachineDataState>(
       builder: (context, state) {
         return Scaffold(
             appBar: AppBar(
               title: const Text("2H Machines"),
               centerTitle: true,
               backgroundColor: Colors.amber,
+              actions: [
+                IconButton(onPressed: (){
+                  context.read<MachineDataBloc>().add(MachineLoadDataEvent());
+                  print("state durumu : $state");
+                  context.read<MachineDataBloc>().updateMachineList();
+                }, icon: const Icon(Icons.refresh_rounded))
+              ],
             ),
             backgroundColor: Colors.grey.shade300,
             body: SingleChildScrollView(
               child: Column(
                 children: [
                   state is MachineDataLoadedState
-                      ? buildMachines(state.apiResult, size)
+                      ? buildMachines(state.apiResult, size,context)
                       : Container(),
                 ],
               ),
@@ -40,35 +45,35 @@ class MachineStateView extends StatelessWidget {
   }
 }
 
-Widget buildMachines(List<Machines>? apiResult, Size size) {
+Widget buildMachines(List<Machines>? apiResult, Size size,context) {
   return ListView.builder(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: apiResult!.length,
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            context.router
-                .push(MachineDetailViewRoute(machine: apiResult[index]));
-          },
-          child: index % 2 == 0
-              ? RightMachineAndLineRow(
-                  size: size,
-                  imagePath: apiResult[index].imagePath!,
-                  color: apiResult[index].isFailure == true
-                      ? Colors.red
-                      : Colors.white,
-                )
-              : LeftMachineAndLineRow(
-                  size: size,
-                  imagePath: apiResult[index].imagePath!,
-                  color: apiResult[index].isFailure == true
-                      ? Colors.red
-                      : Colors.white,
-                ),
-        );
-      });
+          padding: EdgeInsets.zero,
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: apiResult!.length,
+          itemBuilder: (context, index) {
+            return InkWell(
+              onTap: () {
+                context.router
+                    .push(MachineDetailViewRoute(machine: apiResult[index]));
+              },
+              child: index % 2 == 0
+                  ? RightMachineAndLineRow(
+                      size: size,
+                      imagePath: apiResult[index].imagePath!,
+                      color: apiResult[index].isFailure == true
+                          ? Colors.red
+                          : Colors.white,
+                    )
+                  : LeftMachineAndLineRow(
+                      size: size,
+                      imagePath: apiResult[index].imagePath!,
+                      color: apiResult[index].isFailure == true
+                          ? Colors.red
+                          : Colors.white,
+                    ),
+            );
+          });
 }
 
 class LeftMachineAndLineRow extends StatelessWidget {

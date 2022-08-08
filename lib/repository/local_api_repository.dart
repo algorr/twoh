@@ -11,6 +11,8 @@ class LocalApiRepository {
     return response;
   }
 
+
+
   Future<bool> patchMachineData(bool isFailure, int id) async {
     var machineObj = {"isFailure": isFailure.toString()};
     return await _localApi.patchData(machineObj, id);
