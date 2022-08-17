@@ -58,45 +58,7 @@ class MachineDetailView extends StatelessWidget {
                   MachineHeadImageContiner(size: size, machine: machine),
                   MachineNameTextContainer(machine: machine),
                   MachineInfoTextContainer(size: size),
-                  Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.all(2),
-                        height: size.height * .2,
-                        width: size.width,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.shade300,
-                                offset: const Offset(4, 4),
-                                blurRadius: 10,
-                                spreadRadius: 1,
-                              ),
-                              const BoxShadow(
-                                color: Colors.white,
-                                offset: Offset(-4, -4),
-                                blurRadius: 10,
-                                spreadRadius: 1,
-                              ),
-                            ]),
-                        child: state is MachineDataLoadedState  
-                            ? ListView.builder(
-                              itemCount: machine.error != null ? machine.error!.length : 0, 
-                              itemBuilder: (context,index){
-                              return Row(children: [
-                                Text("${machine.error![index].id}"),
-                                Text("${machine.error![index].title}"),
-                                Text("${machine.error![index].arizaDurumu}"),
-                              ],);
-                            })
-                            : Container(
-                                color: Colors.red,
-                              ),
-                      ),
-                    ],
-                  ),
+                  MachineErrorLogWidget(size: size, machine: machine),
                   Padding(
                     padding: const EdgeInsets.all(8),
                     child: Row(
@@ -139,6 +101,58 @@ class MachineDetailView extends StatelessWidget {
         builder: (context) {
           return CreateNewTask(machines: machine);
         });
+  }
+}
+
+class MachineErrorLogWidget extends StatelessWidget {
+  const MachineErrorLogWidget({
+    Key? key,
+    required this.size,
+    required this.machine
+  }) : super(key: key);
+
+  final Size size;
+  final Machines machine;
+  
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          margin: const EdgeInsets.all(2),
+          height: size.height * .2,
+          width: size.width,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+                const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ]),
+          child:  ListView.builder(
+                itemCount: machine.error != null ? machine.error!.length : 0, 
+                itemBuilder: (context,index){
+                return Row(children: [
+                  Text("${machine.error![index].id}"),
+                  Text("${machine.error![index].title}"),
+                  Text("${machine.error![index].arizaDurumu}"),
+                ],);
+              })
+             
+        ),
+      ],
+    );
   }
 }
 

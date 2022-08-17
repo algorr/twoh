@@ -15,20 +15,15 @@ class LocalApi {
         final machineList = body.map((e) => Machines.fromJson(e)).toList();
         return machineList;
       }
-      return null;
     } catch (e) {
-     print(e);
+     throw Exception();
     }
+    return null;
   }
-
-
- 
-
 
   Future<bool> patchData(Map<String, String> machineObj, int id) async {
     try {
       await http.patch(Uri.parse("${baseUrl}machines/$id"), body: machineObj);
-      print("$machineObj");
       return true;
     } catch (e) {
       return false;

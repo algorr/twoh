@@ -25,7 +25,6 @@ class MachineStateView extends StatelessWidget {
               actions: [
                 IconButton(onPressed: (){
                   context.read<MachineDataBloc>().add(MachineLoadDataEvent());
-                  print("state durumu : $state");
                   context.read<MachineDataBloc>().updateMachineList();
                 }, icon: const Icon(Icons.refresh_rounded))
               ],
