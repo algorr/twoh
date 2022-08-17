@@ -4,7 +4,7 @@ abstract class MachineDataEvent extends Equatable {}
 
 class MachineLoadDataEvent extends MachineDataEvent {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class MachinePatchDataEvent extends MachineDataEvent {

@@ -14,12 +14,14 @@ class MachineDataLoadingState extends MachineDataState {
 
 class MachineDataLoadedState extends MachineDataState {
   final List<Machines>? apiResult;
+ 
 
   MachineDataLoadedState({required this.apiResult});
 
   @override
   List<Object?> get props => [apiResult];
 }
+
 
 class MachineDataErrorState extends MachineDataState {
   @override

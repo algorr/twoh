@@ -15,35 +15,44 @@ class CreateNewTask extends StatelessWidget {
     return BlocBuilder<MachineDataBloc, MachineDataState>(
       builder: (BuildContext context, state) {
           Future.delayed(const Duration(seconds: 2)).then((value) => context.read<MachineDataBloc>().updateMachineList());
-        return Container(
-          height: size.height * .4,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-          child: Column(
-            children: [
-              const HeadlineText(),
-              CreateNewTaskTextField(inputController: inputController),
-              Padding(
-                padding: const EdgeInsets.only(top: 12.0),
-                child: CheckboxListTile(
-                  title: const Text("Arıza Var Mı?"),
-                  subtitle: const Text("Manuel Kontrol"),
-                  value: machines.isFailure,
-                  onChanged: (value) {
-                    BlocProvider.of<MachineDataBloc>(context)
-                        .changeComplition(machines);
+        return Padding(
+          padding:  MediaQuery.of(context).viewInsets,
+          child: Container(
+            height: size.height * .4,
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const HeadlineText(),
+                CreateNewTaskTextField(inputController: inputController),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: CheckboxListTile(
+                    title: const Text("Arıza Var Mı?"),
+                    subtitle: const Text("Manuel Kontrol"),
+                    value: machines.isFailure,
+                    onChanged: (value) {
                       BlocProvider.of<MachineDataBloc>(context)
-                      .add(MachineLoadDataEvent());
-                  },
+                          .changeComplition(machines);
+                        BlocProvider.of<MachineDataBloc>(context)
+                        .add(MachineLoadDataEvent());
+                    },
+                  ),
                 ),
-              ),
-              SaveTaskButton(
-                inputController: inputController,
-                onPressed: (_) async {
-                  BlocProvider.of<MachineDataBloc>(context)
-                      .add(MachineLoadDataEvent());
-                },
-              )
-            ],
+                Expanded(
+                  child: Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: SaveTaskButton(
+                      inputController: inputController,
+                      onPressed: (_) async {
+                        BlocProvider.of<MachineDataBloc>(context)
+                            .add(MachineLoadDataEvent());
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
@@ -80,15 +89,18 @@ class SaveTaskButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            primary: Colors.amber,
-            padding: const EdgeInsets.only(top: 10, right: 50, left: 50),
-            textStyle: const TextStyle(fontWeight: FontWeight.bold)),
-        onPressed: () {
-          Navigator.pop(context, inputController.text);
-        },
-        child: const Text('Save'));
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.amber,
+              padding: const EdgeInsets.only(top: 10, right: 50, left: 50),
+              textStyle: const TextStyle(fontWeight: FontWeight.bold)),
+          onPressed: () {
+            Navigator.pop(context, inputController.text);
+          },
+          child: const Text('Save')),
+    );
   }
 }
 

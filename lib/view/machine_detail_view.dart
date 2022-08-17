@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:twoh/viewmodel/bloc/machine_data_bloc.dart';
 import 'package:twoh/widgets/create_new_task.dart';
 import '../models/machines.dart';
 
@@ -11,86 +13,132 @@ class MachineDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.grey.shade300,
-      appBar: AppBar(
-        elevation: 0,
-        actions: [
-          machine.isFailure == true
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    icon: const Icon(Icons.app_registration_rounded),
-                    onPressed: () async {
-                      final result = await showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                                child: CreateNewTask(
-                                  machines: machine,
-                                ),
-                              ));
-                      if (result != null) {
-                        const ScaffoldMessenger(
-                          child: SnackBar(content: Text("yuppi")),
-                        );
-                      }
-                    },
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: IconButton(
-                    icon: const Icon(Icons.info_outline_rounded),
-                    onPressed: () async {
-                      final result = await showDialog(
-                          context: context,
-                          builder: (context) => Dialog(
-                                child: CreateNewTask(
-                                  machines: machine,
-                                ),
-                              ));
-                      if (result != null) {
-                        const ScaffoldMessenger(child: Text("Yuppi"));
-                      }
-                    },
-                  ),
-                ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              MachineHeadImageContiner(size: size, machine: machine),
-              MachineNameTextContainer(machine: machine),
-              MachineInfoTextContainer(size: size),
-              Padding(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  children: const [
-                    Text(
-                      "Percent Indicators",
-                      style: TextStyle(fontWeight: FontWeight.bold),
+    return BlocBuilder<MachineDataBloc, MachineDataState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Colors.grey.shade300,
+          appBar: AppBar(
+            elevation: 0,
+            actions: [
+              machine.isFailure == true
+                  ? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.app_registration_rounded),
+                        onPressed: () async {
+                          final result =
+                              await _showModalForInsertDetail(context);
+                          if (result != null) {
+                            const ScaffoldMessenger(
+                              child: SnackBar(content: Text("yuppi")),
+                            );
+                          }
+                        },
+                      ),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.info_outline_rounded),
+                        onPressed: () async {
+                          final result =
+                              await _showModalForInsertDetail(context);
+                          if (result != null) {
+                            const ScaffoldMessenger(child: Text("Yuppi"));
+                          }
+                        },
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              MachineInfoIndicatorsRow(machine: machine),
-              MachinePercentInfoRow(
-                size: size,
-                color: Colors.red,
-                text: "Arıza Süre Oranı",
-              ),
-              MachinePercentInfoRow(
-                size: size,
-                color: Colors.grey,
-                text: "Etkin Süre Oranı",
-              ),
             ],
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                children: [
+                  MachineHeadImageContiner(size: size, machine: machine),
+                  MachineNameTextContainer(machine: machine),
+                  MachineInfoTextContainer(size: size),
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.all(2),
+                        height: size.height * .2,
+                        width: size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.shade300,
+                                offset: const Offset(4, 4),
+                                blurRadius: 10,
+                                spreadRadius: 1,
+                              ),
+                              const BoxShadow(
+                                color: Colors.white,
+                                offset: Offset(-4, -4),
+                                blurRadius: 10,
+                                spreadRadius: 1,
+                              ),
+                            ]),
+                        child: state is MachineDataLoadedState  
+                            ? ListView.builder(
+                              itemCount: machine.error != null ? machine.error!.length : 0, 
+                              itemBuilder: (context,index){
+                              return Row(children: [
+                                Text("${machine.error![index].id}"),
+                                Text("${machine.error![index].title}"),
+                                Text("${machine.error![index].arizaDurumu}"),
+                              ],);
+                            })
+                            : Container(
+                                color: Colors.red,
+                              ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Row(
+                      children: const [
+                        Text(
+                          "Percent Indicators",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  MachineInfoIndicatorsRow(machine: machine),
+                  MachinePercentInfoRow(
+                    size: size,
+                    color: Colors.red,
+                    text: "Arıza Süre Oranı",
+                  ),
+                  MachinePercentInfoRow(
+                    size: size,
+                    color: Colors.grey,
+                    text: "Etkin Süre Oranı",
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
+  }
+
+  Future<dynamic> _showModalForInsertDetail(BuildContext context) {
+    return showModalBottomSheet(
+        elevation: 20,
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(15), topRight: Radius.circular(15))),
+        context: context,
+        builder: (context) {
+          return CreateNewTask(machines: machine);
+        });
   }
 }
 
