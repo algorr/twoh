@@ -31,11 +31,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Material App',
+      title: 'Twoh',
       routerDelegate: _appRouter.delegate(),
-      theme: ThemeData(
-          appBarTheme: const AppBarTheme(backgroundColor: Colors.amber)),
+      theme: themeData(),
       routeInformationParser: _appRouter.defaultRouteParser(),
     );
+  }
+
+  ThemeData themeData() {
+    return ThemeData(
+        appBarTheme: const AppBarTheme(backgroundColor: Colors.amber));
   }
 }
