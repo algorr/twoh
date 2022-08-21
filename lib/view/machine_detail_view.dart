@@ -117,51 +117,52 @@ class MachineErrorLogWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-            margin: const EdgeInsets.all(2),
-            height: size.height * .2,
-            width: size.width,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade300,
-                    offset: const Offset(4, 4),
-                    blurRadius: 10,
-                    spreadRadius: 1,
-                  ),
-                  const BoxShadow(
-                    color: Colors.white,
-                    offset: Offset(-4, -4),
-                    blurRadius: 10,
-                    spreadRadius: 1,
-                  ),
-                ]),
-            child: ListView.builder(
-                itemCount: machine.error != null ? machine.error!.length : 0,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.amber, width: 1),
-                        borderRadius: BorderRadius.circular(5)),
-                    child: DataTable(columns: const [
-                      DataColumn(label: Text("ID")),
-                      DataColumn(label: Text("Arıza Çeşidi")),
-                      DataColumn(label: Text("Arıza Durumu")),
-                    ], rows: [
-                      DataRow(cells: [
-                        DataCell(Text("${machine.error![index].id}")),
-                        DataCell(
-                          Text("${machine.error![index].title}"),
-                        ),
-                        DataCell(
-                          Text("${machine.error![index].arizaDurumu}"),
-                        ),
-                      ])
-                    ]),
-                  );
-                })),
+          margin: const EdgeInsets.all(2),
+          height: size.height * .2,
+          width: size.width,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade300,
+                  offset: const Offset(4, 4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+                const BoxShadow(
+                  color: Colors.white,
+                  offset: Offset(-4, -4),
+                  blurRadius: 10,
+                  spreadRadius: 1,
+                ),
+              ]),
+          child: SingleChildScrollView(
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text("ID",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),)),
+                DataColumn(label: Text("Arıza Çeşidi",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
+                DataColumn(label: Text("Arıza Durumu",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15))),
+              ],
+              rows: List<DataRow>.generate(
+                machine.error != null ? machine.error!.length : 0,
+                (index) => DataRow(
+                  cells: [
+                    DataCell(
+                      Text("${machine.error![index].id}"),
+                    ),
+                       DataCell(
+                      Text("${machine.error![index].title}"),
+                    ),
+                       DataCell(
+                      Text("${machine.error![index].arizaDurumu}"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

@@ -37,6 +37,7 @@ dependencies:
 
   #state management
   flutter_bloc: ^8.1.1
+  equatable: ^2.0.5
 
   #api call
   http: ^0.13.4
@@ -47,10 +48,16 @@ dependencies:
   
   json_annotation: ^4.6.0
   auto_size_text: ^3.0.0
+
+  # for charts and indicators
   graphic: ^0.10.5
   charts_flutter: ^0.12.0
   percent_indicator: ^4.2.2
-  equatable: ^2.0.5
+  
+
+  #data table
+  
+  intl: ^0.17.0
   
  
 
